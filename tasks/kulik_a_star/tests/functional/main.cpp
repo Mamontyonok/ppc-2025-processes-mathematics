@@ -68,15 +68,13 @@ TEST_P(KulikAStarFuncTests, MatmulFromPic) {
 
 const std::array<TestType, 3> kTestParam = {std::string("vector1"), std::string("vector2"), std::string("vector3")};
 
-const auto kTestTasksList = std::tuple_cat(ppc::util::AddFuncTask<KulikAStarMPI, InType>(
-                                               kTestParam, PPC_SETTINGS_kulik_a_star),
-                                           ppc::util::AddFuncTask<KulikAStarSEQ, InType>(
-                                               kTestParam, PPC_SETTINGS_kulik_a_star));
+const auto kTestTasksList =
+    std::tuple_cat(ppc::util::AddFuncTask<KulikAStarMPI, InType>(kTestParam, PPC_SETTINGS_kulik_a_star),
+                   ppc::util::AddFuncTask<KulikAStarSEQ, InType>(kTestParam, PPC_SETTINGS_kulik_a_star));
 
 const auto kGtestValues = ppc::util::ExpandToValues(kTestTasksList);
 
-const auto kPerfTestName =
-    KulikAStarFuncTests::PrintFuncTestName<KulikAStarFuncTests>;
+const auto kPerfTestName = KulikAStarFuncTests::PrintFuncTestName<KulikAStarFuncTests>;
 
 INSTANTIATE_TEST_SUITE_P(PicMatrixTests, KulikAStarFuncTests, kGtestValues, kPerfTestName);
 

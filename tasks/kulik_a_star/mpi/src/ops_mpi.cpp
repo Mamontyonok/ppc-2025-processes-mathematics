@@ -37,8 +37,8 @@ bool KulikAStarMPI::PreProcessingImpl() {
   return true;
 }
 
-void KulikAStarMPI::CalculateDistribution(int proc_rank, int proc_num, uint64_t n,
-                                                              std::vector<int> &elemcnt, std::vector<int> &startpos) {
+void KulikAStarMPI::CalculateDistribution(int proc_rank, int proc_num, uint64_t n, std::vector<int> &elemcnt,
+                                          std::vector<int> &startpos) {
   uint64_t active_procs = std::min(n, static_cast<uint64_t>(proc_num));
   uint64_t size = (active_procs > 0) ? n / active_procs : 0;
   uint64_t r = (active_procs > 0) ? n % active_procs : 0;
@@ -58,8 +58,8 @@ void KulikAStarMPI::CalculateDistribution(int proc_rank, int proc_num, uint64_t 
   }
 }
 
-void KulikAStarMPI::FindLocalMax(const std::vector<double> &buf, int start_index,
-                                                     double &max_diff_val, uint64_t &max_diff_ind) {
+void KulikAStarMPI::FindLocalMax(const std::vector<double> &buf, int start_index, double &max_diff_val,
+                                 uint64_t &max_diff_ind) {
   if (buf.size() >= 2) {
     for (size_t i = 0; i < buf.size() - 1; ++i) {
       if (std::abs(buf[i + 1] - buf[i]) > max_diff_val) {
@@ -71,9 +71,8 @@ void KulikAStarMPI::FindLocalMax(const std::vector<double> &buf, int start_index
 }
 
 void KulikAStarMPI::CheckBoundaries(int proc_rank, int proc_num, const std::vector<int> &elemcnt,
-                                                        const std::vector<int> &startpos,
-                                                        const std::vector<double> &buf, double &max_diff_val,
-                                                        uint64_t &max_diff_ind) {
+                                    const std::vector<int> &startpos, const std::vector<double> &buf,
+                                    double &max_diff_val, uint64_t &max_diff_ind) {
   MPI_Status status;
   if (elemcnt[proc_rank] > 0) {
     double temp = 0.;

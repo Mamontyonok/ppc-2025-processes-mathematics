@@ -54,9 +54,7 @@ TEST_P(KulikAStarPerfTests, RunPerfModes) {
   ExecuteTest(GetParam());
 }
 
-const auto kAllPerfTasks =
-    ppc::util::MakeAllPerfTasks<InType, KulikAStarMPI, KulikAStarSEQ>(
-        PPC_SETTINGS_kulik_a_star);
+const auto kAllPerfTasks = ppc::util::MakeAllPerfTasks<InType, KulikAStarMPI, KulikAStarSEQ>(PPC_SETTINGS_kulik_a_star);
 
 const auto kGtestValues = ppc::util::TupleToGTestValues(kAllPerfTasks);
 
