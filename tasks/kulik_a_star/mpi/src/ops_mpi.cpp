@@ -35,7 +35,7 @@ bool KulikAStarMPI::ValidationImpl() {
   if (proc_rank == source_rank) {
     bool fs = (source_rank >= 0 && source_rank < proc_num);
     bool fd = (destination_rank >= 0 && destination_rank < proc_num);
-    bool fn = (proc_num >= 3);
+    bool fn = (proc_num >= 2);
     return (fs && fd && fn);
   }
   return true;
