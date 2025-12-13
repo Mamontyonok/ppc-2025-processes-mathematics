@@ -3,13 +3,13 @@
 #include <mpi.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <thread>
 #include <utility>
 #include <vector>
-#include <chrono>
-#include <thread>
 
 #include "kulik_a_star/common/include/common.hpp"
 
