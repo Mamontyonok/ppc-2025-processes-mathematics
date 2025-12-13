@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <utility>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 #include "kulik_a_star/common/include/common.hpp"
 
@@ -58,6 +60,7 @@ bool KulikAStarMPI::RunImpl() {
   if (proc_num < 3) {
     GetOutput().resize(1u);
     GetOutput()[0] = INT_MAX;
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
   } else {
     auto destination_rank = std::get<1>(input);
     size_t size = std::get<2>(input).size();
