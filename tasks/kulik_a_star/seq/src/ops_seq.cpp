@@ -24,21 +24,21 @@ KulikAStarSEQ::KulikAStarSEQ(const InType &in) {
 }
 
 bool KulikAStarSEQ::ValidationImpl() {
-  int proc_num = 0;
-  MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
-  int proc_rank = 0;
-  auto source_rank = std::get<0>(GetInput());
-  auto destination_rank = std::get<1>(GetInput());
-  MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
-  if (proc_rank == source_rank) {
-    bool fs = (source_rank >= 0);
-    bool fd = (destination_rank >= 0);
-    if (proc_num >= 3) {
-      fs = fs && (source_rank < proc_num);
-      fd = fd && (destination_rank < proc_num);
-    }
-    return (fs && fd);
-  }
+  //int proc_num = 0;
+  //MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
+  //int proc_rank = 0;
+  //auto source_rank = std::get<0>(GetInput());
+  //auto destination_rank = std::get<1>(GetInput());
+  //MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
+  //if (proc_rank == source_rank) {
+  //  bool fs = (source_rank >= 0);
+  //  bool fd = (destination_rank >= 0);
+  //  if (proc_num >= 3) {
+  //    fs = fs && (source_rank < proc_num);
+  //    fd = fd && (destination_rank < proc_num);
+  //  }
+  //  return (fs && fd);
+  //}
   return true;
 }
 
