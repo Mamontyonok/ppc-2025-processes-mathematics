@@ -32,21 +32,32 @@ class KulikAStarFuncTests : public ppc::util::BaseRunFuncTests<InType, OutType, 
     if (!filestream.is_open()) {
       throw std::runtime_error("Failed to open file: " + filename);
     }
-    size_t vector_size = 0;
-    filestream.read(reinterpret_cast<char *>(&vector_size), sizeof(size_t));
-    input_data_.resize(vector_size);
-    filestream.read(reinterpret_cast<char *>(input_data_.data()),
-                    static_cast<std::streamsize>(vector_size * sizeof(double)));
+    int source_proc = 0;
+    int destination_proc = 0;
+    size_t size = 0;
+    filestream.read(reinterpret_cast<char *>(&source_proc), sizeof(int));
+    filestream.read(reinterpret_cast<char *>(&destination_proc), sizeof(int));
+    filestream.read(reinterpret_cast<char *>(&size), sizeof(size_t));
+    std::get<0>(input_data_) = source_proc;
+    std::get<1>(input_data_) = destination_proc; 
+    std::get<2>(input_data_).resize(size);
+    filestream.read(reinterpret_cast<char *>(std::get<2>(input_data_).data()),
+                    static_cast<std::streamsize>(size * sizeof(int)));
     filestream.close();
   }
 
   bool CheckTestOutputData(OutType &output_data) final {
-    size_t n = input_data_.size();
+    size_t input_size = std::get<2>(input_data_).size();
+    size_t output_size = output_data.size();
     bool check = true;
-    double mx = std::abs(input_data_[output_data.first] - input_data_[output_data.second]);
-    for (size_t i = 1; i < n; ++i) {
-      if (std::abs(input_data_[i - 1] - input_data_[i]) - mx > 1e-12) {
-        check = false;
+    if (input_size != output_size) {
+      check = false;
+    }
+    else {
+      for (size_t i = 0; i < input_size; i++) {
+        if (std::get<2>(input_data_)[i] != output_data[i]) {
+          check = false;
+        }
       }
     }
     return check;
@@ -66,7 +77,8 @@ TEST_P(KulikAStarFuncTests, MatmulFromPic) {
   ExecuteTest(GetParam());
 }
 
-const std::array<TestType, 3> kTestParam = {std::string("vector1"), std::string("vector2"), std::string("vector3")};
+const std::array<TestType, 5> kTestParam = {std::string("0132"), std::string("1032"), std::string("1232"), std::string("2232"), std::string("perf")};
+
 
 const auto kTestTasksList =
     std::tuple_cat(ppc::util::AddFuncTask<KulikAStarMPI, InType>(kTestParam, PPC_SETTINGS_kulik_a_star),

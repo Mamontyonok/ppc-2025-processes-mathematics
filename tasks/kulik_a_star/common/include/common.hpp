@@ -12,7 +12,7 @@ namespace kulik_a_star {
 
 using InType = std::tuple<int, int, std::vector<int>>; // src dest message
 using OutType = std::vector<int>;
-using TestType = std::tuple<int, int, std::vector<int>>;
+using TestType = std::string; // src dest size
 using BaseTask = ppc::task::Task<InType, OutType>;
 
 }  // namespace kulik_a_star
