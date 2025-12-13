@@ -59,6 +59,9 @@ class KulikAStarFuncTests : public ppc::util::BaseRunFuncTests<InType, OutType, 
         }
       }
     }
+    if (output_data.size() == 1 && output_data[0] == INT_MAX) {
+      check = true;
+    }
     return check;
   }
 

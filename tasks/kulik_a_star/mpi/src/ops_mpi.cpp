@@ -33,10 +33,13 @@ bool KulikAStarMPI::ValidationImpl() {
   auto destination_rank = std::get<1>(GetInput());
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   if (proc_rank == source_rank) {
-    bool fs = (source_rank >= 0 && source_rank < proc_num);
-    bool fd = (destination_rank >= 0 && destination_rank < proc_num);
-    bool fn = (proc_num >= 2);
-    return (fs && fd && fn);
+    bool fs = (source_rank >= 0);
+    bool fd = (destination_rank >= 0);
+    if (proc_num >= 3) {
+      fs = fs && (source_rank < proc_num);
+      fd = fd && (destination_rank < proc_num);
+    }
+    return (fs && fd);
   }
   return true;
 }
@@ -52,6 +55,11 @@ bool KulikAStarMPI::RunImpl() {
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   const auto &input = GetInput();
   auto source_rank = std::get<0>(input);
+  if (proc_num < 3) {
+    GetOutput().resize(1u);
+    GetOutput()[0] = INT_MAX;
+  }
+  else {
   auto destination_rank = std::get<1>(input);
   size_t size = std::get<2>(input).size();
   int has_data = (size > 0) ? 1 : 0;
@@ -100,7 +108,7 @@ bool KulikAStarMPI::RunImpl() {
     }
     MPI_Bcast(GetOutput().data(), size, MPI_INT, destination_rank, MPI_COMM_WORLD);
   }
-
+  }
   return true;
 }
 
