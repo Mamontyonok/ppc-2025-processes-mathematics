@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <mpi.h>
 #include <cmath>
 #include <cstddef>
 #include <fstream>

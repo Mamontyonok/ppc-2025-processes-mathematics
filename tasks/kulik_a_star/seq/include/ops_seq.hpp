@@ -1,4 +1,5 @@
 #pragma once
+#include <mpi.h>
 
 #include "kulik_a_star/common/include/common.hpp"
 #include "task/include/task.hpp"
