@@ -13,14 +13,14 @@ namespace kulik_a_star {
 
 KulikAStarSEQ::KulikAStarSEQ(const InType &in) {
   SetTypeOfTask(GetStaticTypeOfTask());
-  auto source_rank = std::get<0>(in);
-  int proc_rank = 0;
-  MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
-  if (proc_rank == source_rank) {
+  //auto source_rank = std::get<0>(in);
+  //int proc_rank = 0;
+  //MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
+  //if (proc_rank == source_rank) {
     GetInput() = in;
-  } else {
-    GetInput() = InType{};
-  }
+  //} else {
+    //GetInput() = InType{};
+  //}
 }
 
 bool KulikAStarSEQ::ValidationImpl() {
