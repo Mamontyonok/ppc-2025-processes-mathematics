@@ -47,7 +47,7 @@ bool KulikAStarSEQ::PreProcessingImpl() {
 }
 
 bool KulikAStarSEQ::RunImpl() {
-  int proc_num = 0;
+  /*int proc_num = 0;
   int proc_rank = 0;
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
@@ -100,7 +100,9 @@ bool KulikAStarSEQ::RunImpl() {
       MPI_Bcast(GetOutput().data(), static_cast<int>(size), MPI_INT, destination_rank, star);
     }
     MPI_Comm_free(&star);
-  }
+  }*/
+  const auto &input = GetInput();
+  GetOutput() = std::get<2>(input);
   return true;
 }
 
