@@ -28,7 +28,7 @@ bool KulikAStarSEQ::ValidationImpl() {
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
   int proc_rank = 0;
   auto source_rank = std::get<0>(GetInput());
-  auto destination_rank = std::get<1>(GetInput()); 
+  auto destination_rank = std::get<1>(GetInput());
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   if (proc_rank == source_rank) {
     bool fs = (source_rank >= 0 && source_rank < proc_num);
@@ -44,14 +44,14 @@ bool KulikAStarSEQ::PreProcessingImpl() {
 }
 
 bool KulikAStarSEQ::RunImpl() {
-  int proc_num = 0;  
+  int proc_num = 0;
   int proc_rank = 0;
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   const auto &input = GetInput();
   auto source_rank = std::get<0>(GetInput());
   auto destination_rank = std::get<1>(GetInput());
-  size_t size = std::get<2>(input).size(); 
+  size_t size = std::get<2>(input).size();
   MPI_Bcast(&source_rank, 1, MPI_INT, source_rank, MPI_COMM_WORLD);
   MPI_Bcast(&destination_rank, 1, MPI_INT, source_rank, MPI_COMM_WORLD);
   MPI_Bcast(&size, 1, MPI_UINT64_T, source_rank, MPI_COMM_WORLD);
@@ -123,7 +123,7 @@ bool KulikAStarSEQ::ValidationImpl() {
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
   int proc_rank = 0;
   auto source_rank = std::get<0>(GetInput());
-  auto destination_rank = std::get<1>(GetInput()); 
+  auto destination_rank = std::get<1>(GetInput());
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   if (proc_rank == source_rank) {
     bool fs = (source_rank >= 0 && source_rank < proc_num);
@@ -139,18 +139,17 @@ bool KulikAStarSEQ::PreProcessingImpl() {
 }
 
 bool KulikAStarSEQ::RunImpl() {
-  int proc_num = 0;  
+  int proc_num = 0;
   int proc_rank = 0;
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   const auto &input = GetInput();
   auto source_rank = std::get<0>(GetInput());
   auto destination_rank = std::get<1>(GetInput());
-  size_t size = std::get<2>(input).size(); 
-  int has_data = (size > 0) ? 1 : 0;  
+  size_t size = std::get<2>(input).size();
+  int has_data = (size > 0) ? 1 : 0;
   std::vector<int> all_has_data(proc_num);
-  MPI_Allgather(&has_data, 1, MPI_INT, 
-                all_has_data.data(), 1, MPI_INT, MPI_COMM_WORLD);
+  MPI_Allgather(&has_data, 1, MPI_INT, all_has_data.data(), 1, MPI_INT, MPI_COMM_WORLD);
   int actual_source = -1;
   for (int i = 0; i < proc_num; i++) {
     if (all_has_data[i] == 1) {
@@ -175,15 +174,13 @@ bool KulikAStarSEQ::RunImpl() {
       GetOutput() = std::get<2>(input);
     }
     MPI_Bcast(GetOutput().data(), static_cast<int>(size), MPI_INT, destination_rank, star);
-  }
-  else {
+  } else {
     std::vector<int> buff;
     MPI_Status status;
     if (proc_rank == destination_rank) {
       buff.resize(size);
       MPI_Recv(buff.data(), static_cast<int>(size), MPI_INT, source_rank, MPI_ANY_TAG, star, &status);
-    }
-    else if (proc_rank == source_rank) {
+    } else if (proc_rank == source_rank) {
       MPI_Send(std::get<2>(input).data(), static_cast<int>(size), MPI_INT, destination_rank, 0, star);
     }
     MPI_Bcast(GetOutput().data(), static_cast<int>(size), MPI_INT, destination_rank, star);

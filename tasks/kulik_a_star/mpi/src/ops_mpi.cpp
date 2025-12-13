@@ -30,7 +30,7 @@ bool KulikAStarMPI::ValidationImpl() {
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
   int proc_rank = 0;
   auto source_rank = std::get<0>(GetInput());
-  auto destination_rank = std::get<1>(GetInput()); 
+  auto destination_rank = std::get<1>(GetInput());
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   if (proc_rank == source_rank) {
     bool fs = (source_rank >= 0 && source_rank < proc_num);
@@ -54,10 +54,9 @@ bool KulikAStarMPI::RunImpl() {
   auto source_rank = std::get<0>(input);
   auto destination_rank = std::get<1>(input);
   size_t size = std::get<2>(input).size();
-  int has_data = (size > 0) ? 1 : 0;  
+  int has_data = (size > 0) ? 1 : 0;
   std::vector<int> all_has_data(proc_num);
-  MPI_Allgather(&has_data, 1, MPI_INT, 
-                all_has_data.data(), 1, MPI_INT, MPI_COMM_WORLD);
+  MPI_Allgather(&has_data, 1, MPI_INT, all_has_data.data(), 1, MPI_INT, MPI_COMM_WORLD);
   int actual_source = -1;
   for (int i = 0; i < proc_num; i++) {
     if (all_has_data[i] == 1) {
@@ -74,34 +73,29 @@ bool KulikAStarMPI::RunImpl() {
       GetOutput() = std::get<2>(input);
     }
     MPI_Bcast(GetOutput().data(), static_cast<int>(size), MPI_INT, destination_rank, MPI_COMM_WORLD);
-  }
-  else {
+  } else {
     std::vector<int> buff;
     MPI_Status status;
-    
+
     if (proc_rank == 0) {
       buff.resize(size);
       if (source_rank != 0) {
         MPI_Recv(buff.data(), static_cast<int>(size), MPI_INT, source_rank, 0, MPI_COMM_WORLD, &status);
         if (destination_rank != 0) {
           MPI_Send(buff.data(), static_cast<int>(size), MPI_INT, destination_rank, 0, MPI_COMM_WORLD);
-        }
-        else {
+        } else {
           GetOutput() = buff;
         }
-      }
-      else {
+      } else {
         MPI_Send(std::get<2>(input).data(), static_cast<int>(size), MPI_INT, destination_rank, 0, MPI_COMM_WORLD);
       }
-    }
-    else if (proc_rank == destination_rank) {
+    } else if (proc_rank == destination_rank) {
       buff.resize(size);
       if (destination_rank != 0) {
         MPI_Recv(buff.data(), static_cast<int>(size), MPI_INT, 0, 0, MPI_COMM_WORLD, &status);
       }
       GetOutput() = buff;
-    }
-    else if (proc_rank == source_rank && source_rank != 0) {
+    } else if (proc_rank == source_rank && source_rank != 0) {
       MPI_Send(std::get<2>(input).data(), static_cast<int>(size), MPI_INT, 0, 0, MPI_COMM_WORLD);
     }
     MPI_Bcast(GetOutput().data(), size, MPI_INT, destination_rank, MPI_COMM_WORLD);

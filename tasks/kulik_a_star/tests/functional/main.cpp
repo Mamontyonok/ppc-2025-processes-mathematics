@@ -39,7 +39,7 @@ class KulikAStarFuncTests : public ppc::util::BaseRunFuncTests<InType, OutType, 
     filestream.read(reinterpret_cast<char *>(&destination_proc), sizeof(int));
     filestream.read(reinterpret_cast<char *>(&size), sizeof(size_t));
     std::get<0>(input_data_) = source_proc;
-    std::get<1>(input_data_) = destination_proc; 
+    std::get<1>(input_data_) = destination_proc;
     std::get<2>(input_data_).resize(size);
     filestream.read(reinterpret_cast<char *>(std::get<2>(input_data_).data()),
                     static_cast<std::streamsize>(size * sizeof(int)));
@@ -52,8 +52,7 @@ class KulikAStarFuncTests : public ppc::util::BaseRunFuncTests<InType, OutType, 
     bool check = true;
     if (input_size != output_size) {
       check = false;
-    }
-    else {
+    } else {
       for (size_t i = 0; i < input_size; i++) {
         if (std::get<2>(input_data_)[i] != output_data[i]) {
           check = false;
@@ -77,8 +76,8 @@ TEST_P(KulikAStarFuncTests, MatmulFromPic) {
   ExecuteTest(GetParam());
 }
 
-const std::array<TestType, 5> kTestParam = {std::string("0132"), std::string("1032"), std::string("1232"), std::string("2232"), std::string("perf")};
-
+const std::array<TestType, 5> kTestParam = {std::string("0132"), std::string("1032"), std::string("1232"),
+                                            std::string("2232"), std::string("perf")};
 
 const auto kTestTasksList =
     std::tuple_cat(ppc::util::AddFuncTask<KulikAStarMPI, InType>(kTestParam, PPC_SETTINGS_kulik_a_star),

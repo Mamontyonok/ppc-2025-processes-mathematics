@@ -45,8 +45,7 @@ class KulikAStarPerfTests : public ppc::util::BaseRunPerfTests<InType, OutType> 
     bool check = true;
     if (input_size != output_size) {
       check = false;
-    }
-    else {
+    } else {
       for (size_t i = 0; i < input_size; i++) {
         if (std::get<2>(input_data_)[i] != output_data[i]) {
           check = false;
