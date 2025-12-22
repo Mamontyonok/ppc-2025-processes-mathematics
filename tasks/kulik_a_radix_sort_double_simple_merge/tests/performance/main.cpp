@@ -62,6 +62,6 @@ const auto kGtestValues = ppc::util::TupleToGTestValues(kAllPerfTasks);
 
 const auto kPerfTestName = KulikARadixSortDoubleSimpleMergePerfTests::CustomPerfTestName;
 
-INSTANTIATE_TEST_SUITE_P(RunModeTests,KulikARadixSortDoubleSimpleMergePerfTests, kGtestValues, kPerfTestName);
+INSTANTIATE_TEST_SUITE_P(RunModeTests, KulikARadixSortDoubleSimpleMergePerfTests, kGtestValues, kPerfTestName);
 
 }  // namespace kulik_a_radix_sort_double_simple_merge
