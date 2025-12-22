@@ -2,6 +2,8 @@
 
 #include <cmath>
 #include <cstddef>
+#include <algorithm>
+#include <utility>
 #include <cstdint>
 #include <vector>
 
@@ -27,9 +29,9 @@ double *KulikARadixSortDoubleSimpleMergeSEQ::LSDSortBytes(double *arr, double *b
   double *pbuffer = buffer;
   for (uint64_t byte = 0; byte < sizeof(double); ++byte) {
     std::vector<uint64_t> count(256, 0);
-    unsigned char *bytes = reinterpret_cast<unsigned char *>(parr);
+    auto bytes = reinterpret_cast<unsigned char *>(parr);
     for (size_t i = 0; i < size; ++i) {
-      count[bytes[sizeof(double) * i + byte]]++;
+      count[bytes[(sizeof(double) * i) + byte]]++;
     }
     uint64_t pos = 0;
     for (uint64_t i = 0; i < 256; ++i) {
@@ -38,7 +40,7 @@ double *KulikARadixSortDoubleSimpleMergeSEQ::LSDSortBytes(double *arr, double *b
       pos += temp;
     }
     for (size_t i = 0; i < size; ++i) {
-      unsigned char byte_value = bytes[sizeof(double) * i + byte];
+      unsigned char byte_value = bytes[(sizeof(double) * i) + byte];
       uint64_t new_pos = count[byte_value]++;
       pbuffer[new_pos] = parr[i];
     }
@@ -73,7 +75,7 @@ void KulikARadixSortDoubleSimpleMergeSEQ::LSDSortDouble(std::vector<double> &arr
   std::vector<double> buffer(size);
   double *sorted_ptr = LSDSortBytes(arr.data(), buffer.data(), size);
   if (sorted_ptr == buffer.data()) {
-    std::copy(buffer.begin(), buffer.end(), arr.begin());
+    std::ranges::copy(buffer, arr.begin());
   }
   AdjustNegativeNumbers(arr, size);
 }

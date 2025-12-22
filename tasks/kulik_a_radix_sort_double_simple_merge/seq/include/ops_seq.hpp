@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstddef>
+#include <vector>
+
 #include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
 #include "task/include/task.hpp"
 
