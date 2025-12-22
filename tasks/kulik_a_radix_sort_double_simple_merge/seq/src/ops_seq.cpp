@@ -29,7 +29,7 @@ double *KulikARadixSortDoubleSimpleMergeSEQ::LSDSortBytes(double *arr, double *b
   double *pbuffer = buffer;
   for (uint64_t byte = 0; byte < sizeof(double); ++byte) {
     std::vector<uint64_t> count(256, 0);
-    auto bytes = reinterpret_cast<unsigned char *>(parr);
+    auto *bytes = reinterpret_cast<unsigned char *>(parr);
     for (size_t i = 0; i < size; ++i) {
       count[bytes[(sizeof(double) * i) + byte]]++;
     }
