@@ -131,7 +131,7 @@ std::vector<double> KulikARadixSortDoubleSimpleMergeMPI::SimpleMerge(
 }
 
 void KulikARadixSortDoubleSimpleMergeMPI::LSDSortDouble(std::vector<double> &arr) {
-  int proc_rank = 0; 
+  int proc_rank = 0;
   int proc_num = 0;
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
@@ -148,13 +148,14 @@ void KulikARadixSortDoubleSimpleMergeMPI::LSDSortDouble(std::vector<double> &arr
   if (proc_rank == 0) {
     int offset = 0;
     for (int i = 0; i < proc_num; ++i) {
-      sendcounts[i] = std::cmp_less(i, r) ? static_cast<int>((global_size / proc_num) + 1) : static_cast<int>(global_size / proc_num);
+      sendcounts[i] = std::cmp_less(i, r) ? static_cast<int>((global_size / proc_num) + 1)
+                                          : static_cast<int>(global_size / proc_num);
       displs[i] = offset;
       offset += sendcounts[i];
     }
   }
-  MPI_Scatterv(arr.data(), sendcounts.data(), displs.data(), MPI_DOUBLE, local_arr.data(), static_cast<int>(local_size), MPI_DOUBLE, 0,
-               MPI_COMM_WORLD);
+  MPI_Scatterv(arr.data(), sendcounts.data(), displs.data(), MPI_DOUBLE, local_arr.data(), static_cast<int>(local_size),
+               MPI_DOUBLE, 0, MPI_COMM_WORLD);
   LSDSortLocal(local_arr);
   std::vector<int> recv_counts(proc_num);
   int local_size_int = static_cast<int>(local_size);

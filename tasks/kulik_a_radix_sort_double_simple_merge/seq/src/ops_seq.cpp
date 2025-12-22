@@ -1,10 +1,10 @@
 #include "kulik_a_radix_sort_double_simple_merge/seq/include/ops_seq.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <algorithm>
-#include <utility>
 #include <cstdint>
+#include <utility>
 #include <vector>
 
 #include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
