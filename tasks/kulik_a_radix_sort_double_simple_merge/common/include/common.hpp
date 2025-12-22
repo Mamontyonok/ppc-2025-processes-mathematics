@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <string>
 #include <utility>
 #include <vector>
@@ -10,7 +9,7 @@
 namespace kulik_a_radix_sort_double_simple_merge {
 
 using InType = std::vector<double>;
-using OutType = std::pair<uint64_t, uint64_t>;
+using OutType = std::vector<double>;
 using TestType = std::string;
 using BaseTask = ppc::task::Task<InType, OutType>;
 

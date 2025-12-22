@@ -17,6 +17,9 @@ class KulikARadixSortDoubleSimpleMergeSEQ : public BaseTask {
   bool PreProcessingImpl() override;
   bool RunImpl() override;
   bool PostProcessingImpl() override;
+  static double* LSDSortBytes(double* arr, double* buffer, size_t size);
+  static void AdjustNegativeNumbers(std::vector<double>& arr, size_t size);
+  static void LSDSortDouble(std::vector<double>& arr);
 };
 
 }  // namespace kulik_a_radix_sort_double_simple_merge

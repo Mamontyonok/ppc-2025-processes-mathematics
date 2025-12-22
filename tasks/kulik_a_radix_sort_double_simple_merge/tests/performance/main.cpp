@@ -36,9 +36,8 @@ class KulikARadixSortDoubleSimpleMergePerfTests : public ppc::util::BaseRunPerfT
   bool CheckTestOutputData(OutType &output_data) final {
     size_t n = input_data_.size();
     bool check = true;
-    double mx = std::abs(input_data_[output_data.first] - input_data_[output_data.second]);
     for (size_t i = 1; i < n; ++i) {
-      if (std::abs(input_data_[i - 1] - input_data_[i]) - mx > 1e-12) {
+      if (output_data[i - 1] > output_data[i]) {
         check = false;
       }
     }

@@ -15,32 +15,77 @@ KulikARadixSortDoubleSimpleMergeSEQ::KulikARadixSortDoubleSimpleMergeSEQ(const I
 }
 
 bool KulikARadixSortDoubleSimpleMergeSEQ::ValidationImpl() {
-  return (GetInput().size() >= 2);
+  return (!GetInput().empty());
 }
 
 bool KulikARadixSortDoubleSimpleMergeSEQ::PreProcessingImpl() {
   return true;
 }
 
-bool KulikARadixSortDoubleSimpleMergeSEQ::RunImpl() {
-  const auto &input = GetInput();
-  const auto n = input.size();
-  OutType &ans = GetOutput();
-  double mx = 0.;
-  uint64_t ind = 0;
-  for (size_t i = 1; i < n; ++i) {
-    if (std::abs(input[i - 1] - input[i]) > mx) {
-      mx = std::abs(input[i - 1] - input[i]);
-      ind = i - 1;
+double* KulikARadixSortDoubleSimpleMergeSEQ::LSDSortBytes(double* arr, double* buffer, size_t size) {
+    double* parr = arr;
+    double* pbuffer = buffer;
+    for (uint64_t byte = 0; byte < sizeof(double); ++byte) {
+        std::vector<uint64_t> count(256, 0);
+        unsigned char* bytes = reinterpret_cast<unsigned char*>(parr);
+        for (size_t i = 0; i < size; ++i) {
+            count[bytes[sizeof(double) * i + byte]]++;
+        }
+        uint64_t pos = 0;
+        for (uint64_t i = 0; i < 256; ++i) {
+            uint64_t temp = count[i];
+            count[i] = pos;
+            pos += temp;
+        }
+        for (size_t i = 0; i < size; ++i) {
+            unsigned char byte_value = bytes[sizeof(double) * i + byte];
+            uint64_t new_pos = count[byte_value]++;
+            pbuffer[new_pos] = parr[i];
+        }
+        std::swap(parr, pbuffer);
     }
-  }
-  ans.first = ind;
-  ans.second = ind + 1;
+    return parr;  
+}
+
+void KulikARadixSortDoubleSimpleMergeSEQ::AdjustNegativeNumbers(std::vector<double>& arr, size_t size) {
+    size_t neg_start = 0;
+    while (neg_start < size && arr[neg_start] >= 0.0) {
+        ++neg_start;
+    }
+    if (neg_start < size) {
+        for (size_t i = neg_start, j = size - 1; i < j; ++i, --j) {
+            std::swap(arr[i], arr[j]);
+        }
+        std::vector<double> temp(size);
+        size_t index = 0;
+        for (size_t i = neg_start; i < size; ++i) {
+            temp[index++] = arr[i];
+        }
+        for (size_t i = 0; i < neg_start; ++i) {
+            temp[index++] = arr[i];
+        }
+        arr = std::move(temp);
+    }
+}
+
+void KulikARadixSortDoubleSimpleMergeSEQ::LSDSortDouble(std::vector<double>& arr) {
+    size_t size = arr.size();
+    std::vector<double> buffer(size);
+    double* sorted_ptr = LSDSortBytes(arr.data(), buffer.data(), size);
+    if (sorted_ptr == buffer.data()) {
+        std::copy(buffer.begin(), buffer.end(), arr.begin());
+    }
+    AdjustNegativeNumbers(arr, size);
+}
+
+bool KulikARadixSortDoubleSimpleMergeSEQ::RunImpl() {
+  GetOutput() = GetInput();
+  LSDSortDouble(GetOutput());
   return true;
 }
 
 bool KulikARadixSortDoubleSimpleMergeSEQ::PostProcessingImpl() {
-  return (GetOutput().second == (GetOutput().first + 1));
+  return (!GetOutput().empty());
 }
 
 }  // namespace kulik_a_radix_sort_double_simple_merge

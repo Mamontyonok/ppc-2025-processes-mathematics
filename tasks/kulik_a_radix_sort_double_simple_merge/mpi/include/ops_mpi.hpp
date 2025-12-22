@@ -20,13 +20,11 @@ class KulikARadixSortDoubleSimpleMergeMPI : public BaseTask {
   bool PreProcessingImpl() override;
   bool RunImpl() override;
   bool PostProcessingImpl() override;
-  static void CalculateDistribution(int proc_rank, int proc_num, uint64_t n, std::vector<int> &elemcnt,
-                                    std::vector<int> &startpos);
-  static void FindLocalMax(const std::vector<double> &buf, int start_index, double &max_diff_val,
-                           uint64_t &max_diff_ind);
-  static void CheckBoundaries(int proc_rank, int proc_num, const std::vector<int> &elemcnt,
-                              const std::vector<int> &startpos, const std::vector<double> &buf, double &max_diff_val,
-                              uint64_t &max_diff_ind);
+  static double* LSDSortBytes(double* arr, double* buffer, size_t size);
+  static void AdjustNegativeNumbers(std::vector<double>& arr, size_t size);
+  static void LSDSortLocal(std::vector<double>& local_arr);
+  static std::vector<double> SimpleMerge(const std::vector<std::vector<double>>& sorted_arrays);
+  static void LSDSortDouble(std::vector<double>& arr);
 };
 
 }  // namespace kulik_a_radix_sort_double_simple_merge
