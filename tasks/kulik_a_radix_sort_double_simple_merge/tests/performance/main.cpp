@@ -7,20 +7,20 @@
 #include <stdexcept>
 #include <string>
 
-#include "kulik_a_the_most_different_adjacent/common/include/common.hpp"
-#include "kulik_a_the_most_different_adjacent/mpi/include/ops_mpi.hpp"
-#include "kulik_a_the_most_different_adjacent/seq/include/ops_seq.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/mpi/include/ops_mpi.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/seq/include/ops_seq.hpp"
 #include "util/include/perf_test_util.hpp"
 #include "util/include/util.hpp"
 
-namespace kulik_a_the_most_different_adjacent {
+namespace kulik_a_radix_sort_double_simple_merge {
 
-class KulikATheMostDifferentAdjacentPerfTests : public ppc::util::BaseRunPerfTests<InType, OutType> {
+class KulikARadixSortDoubleSimpleMergePerfTests : public ppc::util::BaseRunPerfTests<InType, OutType> {
   InType input_data_;
 
   void SetUp() override {
     std::string filename = "vector2.bin";
-    std::string abs_path = ppc::util::GetAbsoluteTaskPath(PPC_ID_kulik_a_the_most_different_adjacent, filename);
+    std::string abs_path = ppc::util::GetAbsoluteTaskPath(PPC_ID_kulik_a_radix_sort_double_simple_merge, filename);
     std::ifstream filestream(abs_path, std::ios::binary | std::ios::in);
     if (!filestream.is_open()) {
       throw std::runtime_error("Failed to open file: " + filename);
@@ -50,18 +50,18 @@ class KulikATheMostDifferentAdjacentPerfTests : public ppc::util::BaseRunPerfTes
   }
 };
 
-TEST_P(KulikATheMostDifferentAdjacentPerfTests, RunPerfModes) {
+TEST_P(KulikARadixSortDoubleSimpleMergePerfTests, RunPerfModes) {
   ExecuteTest(GetParam());
 }
 
 const auto kAllPerfTasks =
-    ppc::util::MakeAllPerfTasks<InType, KulikATheMostDifferentAdjacentMPI, KulikATheMostDifferentAdjacentSEQ>(
-        PPC_SETTINGS_kulik_a_the_most_different_adjacent);
+    ppc::util::MakeAllPerfTasks<InType, KulikARadixSortDoubleSimpleMergeMPI, KulikARadixSortDoubleSimpleMergeSEQ>(
+        PPC_SETTINGS_kulik_a_radix_sort_double_simple_merge);
 
 const auto kGtestValues = ppc::util::TupleToGTestValues(kAllPerfTasks);
 
-const auto kPerfTestName = KulikATheMostDifferentAdjacentPerfTests::CustomPerfTestName;
+const auto kPerfTestName = KulikARadixSortDoubleSimpleMergePerfTests::CustomPerfTestName;
 
-INSTANTIATE_TEST_SUITE_P(RunModeTests, KulikATheMostDifferentAdjacentPerfTests, kGtestValues, kPerfTestName);
+INSTANTIATE_TEST_SUITE_P(RunModeTests,KulikARadixSortDoubleSimpleMergePerfTests, kGtestValues, kPerfTestName);
 
-}  // namespace kulik_a_the_most_different_adjacent
+}  // namespace kulik_a_radix_sort_double_simple_merge

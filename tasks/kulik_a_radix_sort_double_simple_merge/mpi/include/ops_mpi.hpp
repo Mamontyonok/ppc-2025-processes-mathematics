@@ -3,17 +3,17 @@
 #include <cstdint>
 #include <vector>
 
-#include "kulik_a_the_most_different_adjacent/common/include/common.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
 #include "task/include/task.hpp"
 
-namespace kulik_a_the_most_different_adjacent {
+namespace kulik_a_radix_sort_double_simple_merge {
 
-class KulikATheMostDifferentAdjacentMPI : public BaseTask {
+class KulikARadixSortDoubleSimpleMergeMPI : public BaseTask {
  public:
   static constexpr ppc::task::TypeOfTask GetStaticTypeOfTask() {
     return ppc::task::TypeOfTask::kMPI;
   }
-  explicit KulikATheMostDifferentAdjacentMPI(const InType &in);
+  explicit KulikARadixSortDoubleSimpleMergeMPI(const InType &in);
 
  private:
   bool ValidationImpl() override;
@@ -29,4 +29,4 @@ class KulikATheMostDifferentAdjacentMPI : public BaseTask {
                               uint64_t &max_diff_ind);
 };
 
-}  // namespace kulik_a_the_most_different_adjacent
+}  // namespace kulik_a_radix_sort_double_simple_merge

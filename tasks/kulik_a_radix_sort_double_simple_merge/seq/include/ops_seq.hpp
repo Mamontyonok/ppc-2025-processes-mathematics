@@ -1,16 +1,16 @@
 #pragma once
 
-#include "kulik_a_the_most_different_adjacent/common/include/common.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
 #include "task/include/task.hpp"
 
-namespace kulik_a_the_most_different_adjacent {
+namespace kulik_a_radix_sort_double_simple_merge {
 
-class KulikATheMostDifferentAdjacentSEQ : public BaseTask {
+class KulikARadixSortDoubleSimpleMergeSEQ : public BaseTask {
  public:
   static constexpr ppc::task::TypeOfTask GetStaticTypeOfTask() {
     return ppc::task::TypeOfTask::kSEQ;
   }
-  explicit KulikATheMostDifferentAdjacentSEQ(const InType &in);
+  explicit KulikARadixSortDoubleSimpleMergeSEQ(const InType &in);
 
  private:
   bool ValidationImpl() override;
@@ -19,4 +19,4 @@ class KulikATheMostDifferentAdjacentSEQ : public BaseTask {
   bool PostProcessingImpl() override;
 };
 
-}  // namespace kulik_a_the_most_different_adjacent
+}  // namespace kulik_a_radix_sort_double_simple_merge

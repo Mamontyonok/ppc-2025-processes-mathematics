@@ -1,28 +1,28 @@
-#include "kulik_a_the_most_different_adjacent/seq/include/ops_seq.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/seq/include/ops_seq.hpp"
 
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <vector>
 
-#include "kulik_a_the_most_different_adjacent/common/include/common.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
 
-namespace kulik_a_the_most_different_adjacent {
+namespace kulik_a_radix_sort_double_simple_merge {
 
-KulikATheMostDifferentAdjacentSEQ::KulikATheMostDifferentAdjacentSEQ(const InType &in) {
+KulikARadixSortDoubleSimpleMergeSEQ::KulikARadixSortDoubleSimpleMergeSEQ(const InType &in) {
   SetTypeOfTask(GetStaticTypeOfTask());
   GetInput() = in;
 }
 
-bool KulikATheMostDifferentAdjacentSEQ::ValidationImpl() {
+bool KulikARadixSortDoubleSimpleMergeSEQ::ValidationImpl() {
   return (GetInput().size() >= 2);
 }
 
-bool KulikATheMostDifferentAdjacentSEQ::PreProcessingImpl() {
+bool KulikARadixSortDoubleSimpleMergeSEQ::PreProcessingImpl() {
   return true;
 }
 
-bool KulikATheMostDifferentAdjacentSEQ::RunImpl() {
+bool KulikARadixSortDoubleSimpleMergeSEQ::RunImpl() {
   const auto &input = GetInput();
   const auto n = input.size();
   OutType &ans = GetOutput();
@@ -39,8 +39,8 @@ bool KulikATheMostDifferentAdjacentSEQ::RunImpl() {
   return true;
 }
 
-bool KulikATheMostDifferentAdjacentSEQ::PostProcessingImpl() {
+bool KulikARadixSortDoubleSimpleMergeSEQ::PostProcessingImpl() {
   return (GetOutput().second == (GetOutput().first + 1));
 }
 
-}  // namespace kulik_a_the_most_different_adjacent
+}  // namespace kulik_a_radix_sort_double_simple_merge

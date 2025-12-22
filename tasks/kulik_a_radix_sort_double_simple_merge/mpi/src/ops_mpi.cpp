@@ -1,4 +1,4 @@
-#include "kulik_a_the_most_different_adjacent/mpi/include/ops_mpi.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/mpi/include/ops_mpi.hpp"
 
 #include <mpi.h>
 
@@ -9,11 +9,11 @@
 #include <utility>
 #include <vector>
 
-#include "kulik_a_the_most_different_adjacent/common/include/common.hpp"
+#include "kulik_a_radix_sort_double_simple_merge/common/include/common.hpp"
 
-namespace kulik_a_the_most_different_adjacent {
+namespace kulik_a_radix_sort_double_simple_merge {
 
-KulikATheMostDifferentAdjacentMPI::KulikATheMostDifferentAdjacentMPI(const InType &in) {
+KulikARadixSortDoubleSimpleMergeMPI::KulikARadixSortDoubleSimpleMergeMPI(const InType &in) {
   SetTypeOfTask(GetStaticTypeOfTask());
   int proc_rank = 0;
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
@@ -24,7 +24,7 @@ KulikATheMostDifferentAdjacentMPI::KulikATheMostDifferentAdjacentMPI(const InTyp
   }
 }
 
-bool KulikATheMostDifferentAdjacentMPI::ValidationImpl() {
+bool KulikARadixSortDoubleSimpleMergeMPI::ValidationImpl() {
   int proc_rank = 0;
   MPI_Comm_rank(MPI_COMM_WORLD, &proc_rank);
   if (proc_rank == 0) {
@@ -33,11 +33,11 @@ bool KulikATheMostDifferentAdjacentMPI::ValidationImpl() {
   return true;
 }
 
-bool KulikATheMostDifferentAdjacentMPI::PreProcessingImpl() {
+bool KulikARadixSortDoubleSimpleMergeMPI::PreProcessingImpl() {
   return true;
 }
 
-void KulikATheMostDifferentAdjacentMPI::CalculateDistribution(int proc_rank, int proc_num, uint64_t n,
+void KulikARadixSortDoubleSimpleMergeMPI::CalculateDistribution(int proc_rank, int proc_num, uint64_t n,
                                                               std::vector<int> &elemcnt, std::vector<int> &startpos) {
   uint64_t active_procs = std::min(n, static_cast<uint64_t>(proc_num));
   uint64_t size = (active_procs > 0) ? n / active_procs : 0;
@@ -58,7 +58,7 @@ void KulikATheMostDifferentAdjacentMPI::CalculateDistribution(int proc_rank, int
   }
 }
 
-void KulikATheMostDifferentAdjacentMPI::FindLocalMax(const std::vector<double> &buf, int start_index,
+void KulikARadixSortDoubleSimpleMergeMPI::FindLocalMax(const std::vector<double> &buf, int start_index,
                                                      double &max_diff_val, uint64_t &max_diff_ind) {
   if (buf.size() >= 2) {
     for (size_t i = 0; i < buf.size() - 1; ++i) {
@@ -70,7 +70,7 @@ void KulikATheMostDifferentAdjacentMPI::FindLocalMax(const std::vector<double> &
   }
 }
 
-void KulikATheMostDifferentAdjacentMPI::CheckBoundaries(int proc_rank, int proc_num, const std::vector<int> &elemcnt,
+void KulikARadixSortDoubleSimpleMergeMPI::CheckBoundaries(int proc_rank, int proc_num, const std::vector<int> &elemcnt,
                                                         const std::vector<int> &startpos,
                                                         const std::vector<double> &buf, double &max_diff_val,
                                                         uint64_t &max_diff_ind) {
@@ -90,7 +90,7 @@ void KulikATheMostDifferentAdjacentMPI::CheckBoundaries(int proc_rank, int proc_
   }
 }
 
-bool KulikATheMostDifferentAdjacentMPI::RunImpl() {
+bool KulikARadixSortDoubleSimpleMergeMPI::RunImpl() {
   int proc_num = 0;
   int proc_rank = 0;
   MPI_Comm_size(MPI_COMM_WORLD, &proc_num);
@@ -132,8 +132,8 @@ bool KulikATheMostDifferentAdjacentMPI::RunImpl() {
   return true;
 }
 
-bool KulikATheMostDifferentAdjacentMPI::PostProcessingImpl() {
+bool KulikARadixSortDoubleSimpleMergeMPI::PostProcessingImpl() {
   return (GetOutput().first + 1 == GetOutput().second);
 }
 
-}  // namespace kulik_a_the_most_different_adjacent
+}  // namespace kulik_a_radix_sort_double_simple_merge
